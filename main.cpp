@@ -1,6 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <map>
+#include <tuple>
 #include "time_series.h"  
 #include "linked_list.h"
 #include "tree.h"
@@ -9,9 +11,17 @@
 
 int main() {
 
+    //Here is my hashtable of Country Objects(Linked Lists)    
     Linked_List giantCountryArray[512];
-    std::string command;
     TimeSeries series;  //This creates an instance of the TimeSeries Class (to be removed later)
+
+    //Here is the initialization of my graph. It will be a map of maps. 
+    //The main map will have a country object as the key and a map as the value.
+    //The inner map will have a country object as the key and a tuple of series code, threshold and relation
+    std::map<Linked_List, std::map<Linked_List, std::tuple<std::string, int, std::string>>> myGraph;
+
+
+    std::string command;
     bool treeExists = false;
 
     tree myTree;
