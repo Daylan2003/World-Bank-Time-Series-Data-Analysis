@@ -1,0 +1,21 @@
+CLASS DESIGN
+
+The classes I implemented was a Hashing class. I also modified my Linked List class, my TimeSeries class and my Tree class
+
+
+ALTERNATIVES AND JUSTIFICATION
+
+The main alternative design choice I made was to implement a hashing lookup instead of a linear search when looking to do some function with a country given the country code. My justification for doing this is that I deemed it much for efficient to do so. Both Hash Lookup and Linear search both have a worst case time complexity of O(N), however, hash lookups, on average have a time complexity of O(1). The reason is that it is very rare for collisions to happen, and in the event that they do, it doesn't take many iterations to find a correct hash index where there is no collisions
+
+Additionally, an alternative design choice I made was to create a new file called hashing.cpp which contained all necessary functions for calculating the hash value. My justification for doing this was to maintain clean and efficient code, as all it took was a simple function call to return the necessary hash values rather than retyping the calculations each time I wanted to do a hash lookup.
+
+Furthermore, I made several modifications to functions from earlier projects such as project 3. Here, I modified my load function, to iterate through my csv file and add each Country to my array, calculating the index to add each country via hash Lookup calculations. This essentially turns my array into a hashtable, making it much more efficient to analyze and edit data.
+
+Originally, I was going to put all necessary functions for this project in my Binary Tree class as it seemed like a good idea to have everything in one file however, I realized that was not a good idea. So, an alternative design choice would be to have helper functions, such as in my Linked List class I created a getMean() function which takes a series code as a parameter. My justification for doing this is many functions and functionality of the project depend on the mean for a given TimeSeries or even a particular TimeSeries for a all countries, such as the range function. Creating this helper function prevented me from reusing the same code multiple times.
+
+
+
+RUNTIME ANALYSIS
+
+My lookup command has a worst case runtime of O(N) and a best case runtime of O(1) presuming the number of collisions is O(1) and N is the number of countries. The reason for this is because at minimum I have no collisions. Therefore, on my first hash calculation I would have found an empty spot in my array. Only one calculation was needed, therefore my best case runtime is O(1).
+My worse case runtime however is O(N), because for my worse case, all countries except one have been inserted into my array, and for the worse case I collide with all of these countries when searching for a spot in my array when no collisions occur, therefore, I have to do N HashLookup calculations resulting in a worst case runtime of O(N).
