@@ -13,12 +13,12 @@ int main() {
 
     //Here is my hashtable of Country Objects(Linked Lists)    
     Linked_List giantCountryArray[512];
+
+    //This creates an instance of my graph
+    Graph myGraph;
     TimeSeries series;  //This creates an instance of the TimeSeries Class (to be removed later)
 
-    //Here is the initialization of my graph. It will be a map of maps. 
-    //The main map will have a country object as the key and a map as the value.
-    //The inner map will have a country object as the key and a tuple of series code, threshold and relation
-    std::map<Linked_List, std::map<Linked_List, std::tuple<std::string, int, std::string>>> myGraph;
+
 
 
     std::string command;
@@ -272,8 +272,9 @@ int main() {
 
         else if (command == "INITIALIZE") {
 
-            // I am using my hashmap which gets updated when I load my file to initialize my graph.
-            //On loading, the graph becomes automatically initialized.
+            //Add country objects to my map
+            myGraph.initializeNodes(giantCountryArray);
+
             std::cout << "success" << std::endl;
         }
 

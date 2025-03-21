@@ -3,10 +3,16 @@
 
 #include <unordered_map>
 #include <vector>
+#include <tuple>
+#include "linked_list.h"
 
 class Graph {
 private:
-    std::unordered_map<int, std::vector<int>> adjList; // Adjacency list representation
+
+    //Here is the initialization of my graph. It will be a map of maps. 
+    //The main map will have a country object as the key and a map as the value.
+    //The inner map will have a country object as the key and a tuple of series code, threshold and relation
+    std::unordered_map<std::string, std::unordered_map<std::string, std::tuple<std::string, int, std::string>>> adjList;
 
 public:
     // Constructor
@@ -14,6 +20,8 @@ public:
 
     // Destructor
     ~Graph();
+
+    void initializeNodes(Linked_List giantCountryArray[]);
 };
 
-#endif // GRAPH_H
+#endif 
