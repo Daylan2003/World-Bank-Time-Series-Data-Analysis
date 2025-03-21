@@ -130,32 +130,21 @@ int main() {
             treeExists = true;
 
             for (int i = 0; i < 512; i++) {
-
                 if (giantCountryArray[i].countryName != "") {
-
                     if (giantCountryArray[i].getMean(seriesCode) > 0) {
-
                         if (i == 0) {
                             min = giantCountryArray[i].getMean(seriesCode);
                             max = giantCountryArray[i].getMean(seriesCode);
                         }
-    
                         if (giantCountryArray[i].getMean(seriesCode) > max) {
                             max = giantCountryArray[i].getMean(seriesCode);
                         }
-    
                         if (giantCountryArray[i].getMean(seriesCode) < min) {
                             min = giantCountryArray[i].getMean(seriesCode);
                         }
                     }
-                }
-
-                
-                //std::cout << counter << " " << giantCountryArray[i].getMean(seriesCode) << std::endl;
+                }   
             }
-
-            range = max - min;
-            //std::cout << "Range is: " << range << std::endl;
 
             myTree.build(seriesCode, min, max, giantCountryArray);
             std::cout << "success" << std::endl;
@@ -288,9 +277,29 @@ int main() {
             std::cin >> threshold;
             std::cin >> relation;
            
+
             //first a binary tree has to be built. 
+            for (int i = 0; i < 512; i++) {
+                if (giantCountryArray[i].countryName != "") {
+                    if (giantCountryArray[i].getMean(seriesCode) > 0) {
+                        if (i == 0) {
+                            min = giantCountryArray[i].getMean(seriesCode);
+                            max = giantCountryArray[i].getMean(seriesCode);
+                        }
+                        if (giantCountryArray[i].getMean(seriesCode) > max) {
+                            max = giantCountryArray[i].getMean(seriesCode);
+                        }
+                        if (giantCountryArray[i].getMean(seriesCode) < min) {
+                            min = giantCountryArray[i].getMean(seriesCode);
+                        }
+                    }
+                }   
+            }
+            myTree.build(seriesCode, min, max, giantCountryArray);
             //Then using my find function relationships will be determined. 
             //update the adjacency matrix
+            myGraph.updateEdges(seriesCode, threshold, relation, myTree, giantCountryArray);
+
         }
 
         else if (command == "ADJACENT") {

@@ -5,6 +5,7 @@
 #include <vector>
 #include <tuple>
 #include "linked_list.h"
+#include "tree.h"
 
 class Graph {
 private:
@@ -22,6 +23,7 @@ public:
     ~Graph();
 
     void initializeNodes(Linked_List giantCountryArray[]);
+    void updateEdges(std::string seriesCode, int threshold, std::string relation, tree myTree, Linked_List giantCountryArray[]);
 };
 
 #endif 

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "linked_list.h"
 #include "time_series.h"
 
@@ -32,6 +33,7 @@ class tree {
         
         void build(std::string& seriesCode, double min, double max, Linked_List giantCountryArray[]);
         void findCountries(double mean, std::string& operation, Linked_List giantCountryArray[]);
+        std::vector<std::string> returnCountriesGraph(double target, std::string& operation, Linked_List giantCountryArray[]);
         void traverse();
         void limits(std::string& condition);
         void deleteCountry(const std::string &country);

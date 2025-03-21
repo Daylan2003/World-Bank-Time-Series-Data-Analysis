@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "tree.h"
 #include <iostream>
 #include <string>
 
@@ -24,7 +25,7 @@ void Graph::initializeNodes(Linked_List giantCountryArray[]) {
     //I should clear my map first, in the even it has been initialized
     adjList.clear();
 
-
+    //Initialize each node of my graph
     for (int i = 0; i < 512; i++) {
         if (giantCountryArray[i].countryName != "") {
             adjList[giantCountryArray[i].countryCode];
@@ -32,12 +33,32 @@ void Graph::initializeNodes(Linked_List giantCountryArray[]) {
         }
     }
     //std::cout << countryCount << std::endl;
-
-    int count = 1;
+    /*int count = 1;
     for (const auto& pair : adjList) {
 
-        //std::cout << count << " " << pair.first << std::endl; 
+        std::cout << count << " " << pair.first << std::endl; 
         count++;
+    }*/
+}
+
+//add giant country array to paramaters
+void Graph::updateEdges(std::string seriesCode, int threshold, std::string relation, tree myTree, Linked_List giantCountryArray[]) {
+
+    bool relationsAdded = false;
+    std::tuple<std::string, int, std::string> myTuple(seriesCode, threshold, relation);
+    
+
+    //The tree is built so now I should call the find function for my binary tree
+    //It will return an array of strings, which are the country codes.
+
+    //std::vector<std::string> countryCodes = myTree.returnCountriesGraph(threshold, relation, giantCountryArray);
+    myTree.findCountries(threshold, relation, giantCountryArray);
+
+    if (relationsAdded) {
+        std::cout << "success" << std::endl;    
+    }
+    else {
+        std::cout << "failure" << std::endl;
     }
 }
 

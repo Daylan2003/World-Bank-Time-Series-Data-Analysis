@@ -1,4 +1,5 @@
 #include "tree.h"
+#include <vector>
 #include <queue>
 
 // Node ConstructorBUIL
@@ -138,7 +139,8 @@ void tree::findCountries(double target, std::string& operation, Linked_List gian
 
                         if (found)
                             std::cout << " ";
-                        std::cout << giantCountryArray[j].countryName;
+                        //std::cout << giantCountryArray[j].countryName;
+                        std::cout << giantCountryArray[j].countryCode;
                         found = true;
                     }
                     break; // Found the matching country, move to the next.
@@ -307,5 +309,47 @@ void tree::traverse() {
 }
 
 
+// Assuming the rest of your tree class and Linked_List are defined.
 
+std::vector<std::string> tree::returnCountriesGraph(double target, std::string& operation, Linked_List giantCountryArray[]) {
+    bool found = false;
+    std::vector<std::string> countryCodes;  // dynamic array of strings
 
+    if (root == nullptr) {
+        std::cout << "failure" << std::endl;
+        return countryCodes; // returns an empty vector
+    }
+
+    // Iterate over all stored countries in the root node
+    for (int i = 0; i < 512; i++) {
+        if (!root->countries[i].empty()) { // Check if the country slot is used
+            for (int j = 0; j < 512; j++) { // Search for the country in giantCountryArray
+                if (giantCountryArray[j].countryName == root->countries[i]) {
+                    double mean = giantCountryArray[j].getMean(seriesCodeTree);
+
+                    // Convert invalid mean (-1) to 0.
+                    if (mean == -1) {
+                        mean = 0;
+                    }
+
+                    // Compute the absolute difference manually.
+                    double diff = (mean - target) < 0 ? -(mean - target) : (mean - target);
+
+                    // Compare mean value based on the operation.
+                    if ((operation == "less" && mean < target) ||
+                        (operation == "greater" && mean > target) ||
+                        (operation == "equal" && diff <= 1e-3)) {
+
+                        if (found)
+                            std::cout << " ";
+                        std::cout << giantCountryArray[j].countryCode << std::endl;
+                        countryCodes.push_back(giantCountryArray[j].countryCode);
+                        found = true;
+                    }
+                    break; // Found the matching country, move to the next.
+                }
+            }
+        }
+    }
+    return countryCodes; // return the vector of country codes
+}
