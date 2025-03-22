@@ -296,6 +296,7 @@ int main() {
                 }   
             }
             myTree.build(seriesCode, min, max, giantCountryArray);
+            
             //Then using my find function relationships will be determined. 
             //update the adjacency matrix
             myGraph.updateEdges(seriesCode, threshold, relation, myTree, giantCountryArray);

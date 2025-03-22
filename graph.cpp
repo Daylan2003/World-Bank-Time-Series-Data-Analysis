@@ -9,6 +9,8 @@
 //I will use an ajacency list, it will be a map of maps.  
 
 //std::unordered_map<std::string, std::unordered_map<std::string, std::tuple<std::string, int, std::string>>> adjList;
+//std::map<Linked_List, std::map<Linked_List, std::vector<std::tuple<std::string, int, std::string>>>> adjList;
+
 
 
 
@@ -42,16 +44,16 @@ void Graph::initializeNodes(Linked_List giantCountryArray[]) {
 }
 
 //add giant country array to paramaters
-void Graph::updateEdges(std::string seriesCode, int threshold, std::string relation, tree myTree, Linked_List giantCountryArray[]) {
+void Graph::updateEdges(std::string seriesCode, int threshold, std::string relation, tree &myTree, Linked_List giantCountryArray[]) {
 
-    bool relationsAdded = false;
+    bool relationsAdded = true;
     std::tuple<std::string, int, std::string> myTuple(seriesCode, threshold, relation);
     
 
     //The tree is built so now I should call the find function for my binary tree
     //It will return an array of strings, which are the country codes.
 
-    //std::vector<std::string> countryCodes = myTree.returnCountriesGraph(threshold, relation, giantCountryArray);
+    std::vector<std::string> countryCodes = myTree.returnCountriesGraph(threshold, relation, giantCountryArray);
     myTree.findCountries(threshold, relation, giantCountryArray);
 
     if (relationsAdded) {
