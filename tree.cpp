@@ -118,6 +118,7 @@ void tree::findCountries(double target, std::string& operation, Linked_List gian
     }
 
     // Iterate over all stored countries in the root node
+    int count = 1;
     for (int i = 0; i < 512; i++) {
         if (!root->countries[i].empty()) { // Check if the country slot is used
             for (int j = 0; j < 512; j++) { // Search for the country in giantCountryArray
@@ -138,9 +139,10 @@ void tree::findCountries(double target, std::string& operation, Linked_List gian
                         (operation == "equal" && diff <= 1e-3)) {
 
                         if (found)
-                            std::cout << " ";
+                            //std::cout << " ";
                         //std::cout << giantCountryArray[j].countryName;
-                        std::cout << giantCountryArray[j].countryCode;
+                        count++;
+                        std::cout << count << " " << giantCountryArray[j].countryCode << std::endl;
                         found = true;
                     }
                     break; // Found the matching country, move to the next.
@@ -316,7 +318,7 @@ std::vector<std::string> tree::returnCountriesGraph(double target, std::string& 
     std::vector<std::string> countryCodes;  // dynamic array of strings
 
     if (root == nullptr) {
-        std::cout << "failure" << std::endl;
+        //std::cout << "failure" << std::endl;
         return countryCodes; // returns an empty vector
     }
 
@@ -341,8 +343,7 @@ std::vector<std::string> tree::returnCountriesGraph(double target, std::string& 
                         (operation == "equal" && diff <= 1e-3)) {
 
                         if (found)
-                            std::cout << " ";
-                        std::cout << giantCountryArray[j].countryCode << std::endl;
+                        //std::cout << giantCountryArray[j].countryCode << std::endl;
                         countryCodes.push_back(giantCountryArray[j].countryCode);
                         found = true;
                     }

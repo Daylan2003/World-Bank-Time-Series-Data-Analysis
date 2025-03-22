@@ -270,7 +270,7 @@ int main() {
         else if (command == "UPDATE_EDGES") {
            
             std::string seriesCode;
-            int threshold;
+            double threshold;
             std::string relation;
 
             std::cin >> seriesCode;
@@ -300,6 +300,8 @@ int main() {
             //Then using my find function relationships will be determined. 
             //update the adjacency matrix
             myGraph.updateEdges(seriesCode, threshold, relation, myTree, giantCountryArray);
+
+            //myGraph.printAdjacencyList();
 
         }
 

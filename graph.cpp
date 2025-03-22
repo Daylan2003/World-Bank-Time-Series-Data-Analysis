@@ -44,17 +44,59 @@ void Graph::initializeNodes(Linked_List giantCountryArray[]) {
 }
 
 //add giant country array to paramaters
-void Graph::updateEdges(std::string seriesCode, int threshold, std::string relation, tree &myTree, Linked_List giantCountryArray[]) {
+void Graph::updateEdges(std::string seriesCode, double threshold, std::string relation, tree &myTree, Linked_List giantCountryArray[]) {
 
-    bool relationsAdded = true;
-    std::tuple<std::string, int, std::string> myTuple(seriesCode, threshold, relation);
+    bool relationsAdded = false;
+    int relationshipsAdded = 0;
+    std::tuple<std::string, int, std::string> relationship(seriesCode, threshold, relation);
     
 
     //The tree is built so now I should call the find function for my binary tree
     //It will return an array of strings, which are the country codes.
 
+    //This vector now has country codes. 
     std::vector<std::string> countryCodes = myTree.returnCountriesGraph(threshold, relation, giantCountryArray);
-    myTree.findCountries(threshold, relation, giantCountryArray);
+
+
+
+    //myTree.findCountries(threshold, relation, giantCountryArray);
+
+    int count = 0;
+    for (size_t i = 0; i < countryCodes.size(); i++) {
+        count++;
+        //std::cout << count << " " << countryCodes[i] << std::endl;
+    }
+
+    for (const auto& pair : adjList) {
+        //std::cout << pair.first << std::endl; 
+
+        std::string target = pair.first;
+
+        auto it = std::find(countryCodes.begin(), countryCodes.end(), target);
+
+        if (it != countryCodes.end()) {
+
+            for (size_t i = 0; i < countryCodes.size(); i++) {
+                if (countryCodes[i] != target) {
+
+                    auto& relationsVec = adjList[target][countryCodes[i]];
+                    
+                    // Check to prevent duplicates
+                    if (std::find(relationsVec.begin(), relationsVec.end(), relationship) == relationsVec.end()) {
+                        relationsVec.push_back(relationship);
+                        relationsAdded = true;
+                        relationshipsAdded++;
+                    }
+                } 
+            }
+        }
+        else {
+            //break;
+            continue;
+        }
+    }
+
+    //std::cout << "Relationships added: " << relationshipsAdded << std::endl;
 
     if (relationsAdded) {
         std::cout << "success" << std::endl;    
@@ -65,3 +107,29 @@ void Graph::updateEdges(std::string seriesCode, int threshold, std::string relat
 }
 
 
+void Graph::printAdjacencyList() {
+    // Iterate over each source node in the adjacency list.
+    for (const auto& outerPair : adjList) {
+        const std::string& source = outerPair.first;
+        const auto& innerMap = outerPair.second;
+        std::cout << "Source: " << source << std::endl;
+        
+        // Iterate over each destination node for this source.
+        for (const auto& innerPair : innerMap) {
+            const std::string& destination = innerPair.first;
+            const auto& relations = innerPair.second;
+            std::cout << "  Destination: " << destination << " -> ";
+            
+            // Iterate over all relations (tuples) for the edge.
+            for (const auto& relation : relations) {
+                // Unpack the tuple: (relation type, weight, extra info)
+                std::cout << "(" 
+                          << std::get<0>(relation) << ", "
+                          << std::get<1>(relation) << ", "
+                          << std::get<2>(relation) << ") ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl; // Extra line for readability between nodes.
+    }
+}
