@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <tuple>
+#include <set>
 #include <algorithm>
 #include "linked_list.h"
 #include "tree.h"
@@ -31,6 +32,7 @@ public:
 
     void initializeNodes(Linked_List giantCountryArray[]);
     void updateEdges(std::string seriesCode, double threshold, std::string relation, tree &myTree, Linked_List giantCountryArray[]);
+    void adjacent(std::string seriesCode, Linked_List giantCountryArray[]);
 
     void printAdjacencyList();
 };

@@ -245,7 +245,6 @@ int main() {
                     existsInArray = true;
                     break;
                 }
-
                 i++; // Increment the loop counter
             }
 
@@ -301,12 +300,13 @@ int main() {
             //update the adjacency matrix
             myGraph.updateEdges(seriesCode, threshold, relation, myTree, giantCountryArray);
 
-            //myGraph.printAdjacencyList();
-
         }
 
         else if (command == "ADJACENT") {
+            std::string seriesCode;
+            std::cin >> seriesCode;
 
+            myGraph.adjacent(seriesCode, giantCountryArray);
         }
 
         else if (command == "PATH") {

@@ -322,6 +322,7 @@ std::vector<std::string> tree::returnCountriesGraph(double target, std::string& 
         return countryCodes; // returns an empty vector
     }
 
+    int count = 1;
     // Iterate over all stored countries in the root node
     for (int i = 0; i < 512; i++) {
         if (!root->countries[i].empty()) { // Check if the country slot is used
@@ -344,6 +345,10 @@ std::vector<std::string> tree::returnCountriesGraph(double target, std::string& 
 
                         if (found)
                         //std::cout << giantCountryArray[j].countryCode << std::endl;
+
+                        count++;
+                        //std::cout << count << " " << giantCountryArray[j].countryCode << std::endl;
+
                         countryCodes.push_back(giantCountryArray[j].countryCode);
                         found = true;
                     }

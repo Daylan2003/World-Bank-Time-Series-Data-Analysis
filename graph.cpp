@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "tree.h"
+#include "hashing.h"
 #include <iostream>
 #include <string>
 
@@ -48,6 +49,8 @@ void Graph::updateEdges(std::string seriesCode, double threshold, std::string re
 
     bool relationsAdded = false;
     int relationshipsAdded = 0;
+    int countriesEdited = 0;
+
     std::tuple<std::string, int, std::string> relationship(seriesCode, threshold, relation);
     
 
@@ -75,6 +78,7 @@ void Graph::updateEdges(std::string seriesCode, double threshold, std::string re
         auto it = std::find(countryCodes.begin(), countryCodes.end(), target);
 
         if (it != countryCodes.end()) {
+            countriesEdited++;
 
             for (size_t i = 0; i < countryCodes.size(); i++) {
                 if (countryCodes[i] != target) {
@@ -97,6 +101,7 @@ void Graph::updateEdges(std::string seriesCode, double threshold, std::string re
     }
 
     //std::cout << "Relationships added: " << relationshipsAdded << std::endl;
+    //std::cout << "Countries edited: " << countriesEdited << std::endl;
 
     if (relationsAdded) {
         std::cout << "success" << std::endl;    
@@ -106,30 +111,50 @@ void Graph::updateEdges(std::string seriesCode, double threshold, std::string re
     }
 }
 
+void Graph::adjacent(std::string seriesCode, Linked_List giantCountryArray[]) {
+    std::string targetCountry = seriesCode;
+    std::set<std::string> adjacentCountries;
 
-void Graph::printAdjacencyList() {
-    // Iterate over each source node in the adjacency list.
-    for (const auto& outerPair : adjList) {
-        const std::string& source = outerPair.first;
-        const auto& innerMap = outerPair.second;
-        std::cout << "Source: " << source << std::endl;
-        
-        // Iterate over each destination node for this source.
-        for (const auto& innerPair : innerMap) {
-            const std::string& destination = innerPair.first;
-            const auto& relations = innerPair.second;
-            std::cout << "  Destination: " << destination << " -> ";
-            
-            // Iterate over all relations (tuples) for the edge.
-            for (const auto& relation : relations) {
-                // Unpack the tuple: (relation type, weight, extra info)
-                std::cout << "(" 
-                          << std::get<0>(relation) << ", "
-                          << std::get<1>(relation) << ", "
-                          << std::get<2>(relation) << ") ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl; // Extra line for readability between nodes.
+    // Check if the target country exists in the adjacency list
+    auto it = adjList.find(targetCountry);
+    if (it == adjList.end()) {
+        std::cout << "failure" << std::endl;
+        return;
     }
+
+    // Get the inner map and check if it's empty
+    const auto& innerMap = it->second;
+    if (innerMap.empty()) {
+        std::cout << "none" << std::endl;
+        return;
+    }
+
+    // Add keys of the inner map to the set
+    for (const auto& innerPair : innerMap) {
+        adjacentCountries.insert(innerPair.first);
+    }
+
+    // Print the adjacent countries
+    for (const auto& country : adjacentCountries) {
+        // Use the country (a string representing a country code) for hashing.
+        int W = hash1(country);            // hash1 should accept a std::string.
+        int firstHashIndex = W % 512;
+        int secondHashIndex = hash2(W);      // hash2 uses the hash value to compute a second index.
+        int i = 0;
+        int currentHashIndex;
+        bool found = false;
+
+        // Use double hashing to locate the country in giantCountryArray.
+        while (i < 512) {
+            currentHashIndex = (firstHashIndex + i * secondHashIndex) % 512;
+            if (giantCountryArray[currentHashIndex].countryCode == country) {
+                std::cout << giantCountryArray[currentHashIndex].countryName << " ";
+                found = true;
+                break;
+            }
+            i++; // Increment the probe counter.
+        }
+    
+}
+std::cout << std::endl;
 }
