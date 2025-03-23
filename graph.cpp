@@ -171,7 +171,7 @@ void Graph::path(std::string seriesCode1, std::string seriesCode2) {
     std::set<std::string> visited;        
 
     q.push(seriesCode1);
-    visited.insert(seriesCode2);
+    visited.insert(seriesCode1);
 
     while (!q.empty()) {
         std::string current = q.front();
