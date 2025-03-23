@@ -229,7 +229,6 @@ void Graph::relationships(std::string seriesCode1, std::string seriesCode2) {
         std::cout << std::endl;
     }
     
-
     if (!edgeExists) {
         std::cout << "none" << std::endl;
     }
