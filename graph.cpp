@@ -158,3 +158,79 @@ void Graph::adjacent(std::string seriesCode, Linked_List giantCountryArray[]) {
 }
 std::cout << std::endl;
 }
+
+void Graph::path(std::string seriesCode1, std::string seriesCode2) {
+    //to traverse my graph I am going to use a BFS algorithm
+    //I am given 2 series codes. 
+    //This method works by visiting all neighbours to see if the second country exists
+    bool pathExists = false;
+    std::string startingNode = seriesCode1;
+    std::string target = seriesCode2;
+
+    std::queue<std::string> q;          
+    std::set<std::string> visited;        
+
+    q.push(seriesCode1);
+    visited.insert(seriesCode2);
+
+    while (!q.empty()) {
+        std::string current = q.front();
+        q.pop();
+
+        // If the current node is the target, we've found a path.
+        if (current == target) {
+            pathExists = true;
+            break;
+        }
+
+        // Find the current node in the adjacency list.
+        auto nodeCountryCode = adjList.find(current);
+        
+            // Iterate over the connectedCountryCodes in the inner map.
+        const auto& innerMap = nodeCountryCode->second;
+        for (const auto& connectedCountry : innerMap) {
+            const std::string& connectedCountryCode = connectedCountry.first;
+            // If this connectedCountryCode hasn't been visited, enqueue it.
+            if (visited.find(connectedCountryCode) == visited.end()) {
+                q.push(connectedCountryCode);
+                visited.insert(connectedCountryCode);
+            }
+        }
+        
+    }
+
+    if (pathExists) {
+        std::cout << "true" << std::endl;
+    } else {
+        std::cout << "false" << std::endl;
+    }
+}
+
+void Graph::relationships(std::string seriesCode1, std::string seriesCode2) {
+
+    bool edgeExists = false;
+    std::string target = seriesCode2;
+
+    auto nodeCountryCode = adjList.find(seriesCode1);
+    
+        
+    const auto& innerMap = nodeCountryCode->second;
+
+    // Look for targetmin the inner map.
+    auto edgeCountryCode = innerMap.find(target);
+    if (edgeCountryCode != innerMap.end()) {
+        edgeExists = true;
+        for (const auto& relation : edgeCountryCode->second) {
+            std::cout << "(" 
+                      << std::get<0>(relation) << " " 
+                      << std::get<1>(relation) << " " 
+                      << std::get<2>(relation) << ") ";
+        }
+        std::cout << std::endl;
+    }
+    
+
+    if (!edgeExists) {
+        std::cout << "none" << std::endl;
+    }
+}

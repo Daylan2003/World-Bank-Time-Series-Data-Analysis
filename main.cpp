@@ -310,11 +310,23 @@ int main() {
         }
 
         else if (command == "PATH") {
+            std::string seriesCode1;
+            std::string seriesCode2;
 
+            std::cin >> seriesCode1;
+            std::cin >> seriesCode2;
+
+            myGraph.path(seriesCode1, seriesCode2); 
         }
 
         else if (command == "RELATIONSHIPS") {
+            std::string seriesCode1;
+            std::string seriesCode2;
 
+            std::cin >> seriesCode1;
+            std::cin >> seriesCode2;
+
+            myGraph.relationships(seriesCode1, seriesCode2);
         }
      
         /*else if (command == "PRINT") {
