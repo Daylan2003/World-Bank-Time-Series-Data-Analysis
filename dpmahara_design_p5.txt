@@ -1,21 +1,20 @@
 CLASS DESIGN
 
-The classes I implemented was a Hashing class. I also modified my Linked List class, my TimeSeries class and my Tree class
+The classes I implemented was graph class. 
 
 
 ALTERNATIVES AND JUSTIFICATION
 
-The main alternative design choice I made was to implement a hashing lookup instead of a linear search when looking to do some function with a country given the country code. My justification for doing this is that I deemed it much for efficient to do so. Both Hash Lookup and Linear search both have a worst case time complexity of O(N), however, hash lookups, on average have a time complexity of O(1). The reason is that it is very rare for collisions to happen, and in the event that they do, it doesn't take many iterations to find a correct hash index where there is no collisions
+The main alternative design choice I made for this project was the way of how I represented my graph data structure. Initially, my choice was to use an adjacency matrix to represent my graph as this seemed simpler and easier to implement. However, I decided against this and made the choice to use an adjacency list. My justification for this is that it is much more efficient to update data in an adjacency list rather than an adjacency matrix. And since for this project we are dealing with are amount of data, I deemed this to be a good choice. 
 
-Additionally, an alternative design choice I made was to create a new file called hashing.cpp which contained all necessary functions for calculating the hash value. My justification for doing this was to maintain clean and efficient code, as all it took was a simple function call to return the necessary hash values rather than retyping the calculations each time I wanted to do a hash lookup.
+Additionally, a second design alternative choice I made came when trying to figure out a way of how to traverse the graph. At first I was going to use the depth first search method, but decided it was a much better alternative to use Breadth first search to traverse my graph. My justification for this is that the graph is unweighted. Additionally, I am dealing with a lot of data, and a total of 266 countries. Therefore it is very likely that 2 countries have a direct relation to one another. Since the breadth first search algorithm checks the neighbours first, I deemed this to be the more efficient and better algorithm to use. 
 
-Furthermore, I made several modifications to functions from earlier projects such as project 3. Here, I modified my load function, to iterate through my csv file and add each Country to my array, calculating the index to add each country via hash Lookup calculations. This essentially turns my array into a hashtable, making it much more efficient to analyze and edit data.
-
-Originally, I was going to put all necessary functions for this project in my Binary Tree class as it seemed like a good idea to have everything in one file however, I realized that was not a good idea. So, an alternative design choice would be to have helper functions, such as in my Linked List class I created a getMean() function which takes a series code as a parameter. My justification for doing this is many functions and functionality of the project depend on the mean for a given TimeSeries or even a particular TimeSeries for a all countries, such as the range function. Creating this helper function prevented me from reusing the same code multiple times.
-
+Furthermore, a third design alternative I made was how I was storing a group of relations in my graph. The relations were tuples containing three elements each. I immediately saw two ways to store a group of these. The first was to use a linked list, but eventually I settled on using a vector as it required less overhead. Additionally, for this particular project I would not be deleting relations, so a linked list seemed unnecessary. That is my justification for using a vector to store my data.
 
 
 RUNTIME ANALYSIS
 
-My lookup command has a worst case runtime of O(N) and a best case runtime of O(1) presuming the number of collisions is O(1) and N is the number of countries. The reason for this is because at minimum I have no collisions. Therefore, on my first hash calculation I would have found an empty spot in my array. Only one calculation was needed, therefore my best case runtime is O(1).
-My worse case runtime however is O(N), because for my worse case, all countries except one have been inserted into my array, and for the worse case I collide with all of these countries when searching for a spot in my array when no collisions occur, therefore, I have to do N HashLookup calculations resulting in a worst case runtime of O(N).
+The runtime for my ADJACENT command is O(m + log n). Searching for the target country in adjList takes O(log n) because adjList is a std::map, which is implemented as a balanced binary search tree. Usually it is implemented as a Red-Black tree where lookups take O(log n) time.  Inserting m adjacent countries into a std::set requires O(m log m) time since std::set is also a balanced binary search tree, making each insertion O(log m).  Finally, searching for each adjacent country’s name using double hashing takes O(m) in the worst case, as probing through the hash table may require up to O(1) per lookup for all m countries, hence, worst case of O(m). Since O(m log m) dominates O(m), the overall complexity simplifies to O(m + log n).
+
+
+
